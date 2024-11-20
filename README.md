@@ -1,7 +1,3 @@
-Here is a sample `README.md` for your Python project that involves classifying skin cancer types based on the HAM10000 dataset with a web interface:
-
----
-
 # Skin Cancer Classification Web Application
 
 This project provides a web-based interface to upload an image and classify the type of skin cancer. The model uses the HAM10000 dataset, which is a large collection of labeled skin lesion images. The system applies machine learning techniques to classify skin lesions and help in early detection of skin cancer.
