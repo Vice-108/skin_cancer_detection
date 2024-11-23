@@ -103,10 +103,6 @@ Feel free to fork this project, open issues, and submit pull requests. Contribut
 4. Push to your branch (`git push origin feature/your-feature-name`).
 5. Open a pull request.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ---
 
 Don't let me know if you need any adjustments or additional information!
