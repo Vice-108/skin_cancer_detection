@@ -1,8 +1,8 @@
-from flask import Flask, request, render_template, redirect, url_for, send_from_directory
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.image import img_to_array, load_img
-import numpy as np
 import os
+from flask import Flask, request, redirect, render_template, send_from_directory
+from keras.models import load_model #type:ignore
+from tensorflow.keras.preprocessing.image import img_to_array, load_img #type:ignore
+import numpy as np
 
 app = Flask(__name__)
 
@@ -15,6 +15,12 @@ UPLOAD_FOLDER = 'uploads'
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -25,13 +31,15 @@ def index():
         if file.filename == '':
             return redirect(request.url)
         if file:
-            filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(filepath)
+            # Convert backslashes to forward slashes
+            filepath = filepath.replace('\\', '/')
             prediction_result = predict(filepath)
             return render_template('index.html', 
                                  prediction=prediction_result['diagnosis'],
                                  confidence=prediction_result['confidence'],
-                                 filepath=filepath)
+                                 filepath=f'/uploads/{file.filename}')
     return render_template('index.html')
 
 SIZE = 64  
